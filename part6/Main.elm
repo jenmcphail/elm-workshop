@@ -4,7 +4,7 @@ import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (class, target, href, property, defaultValue)
 import Html.Events exposing (..)
-import Json.Decode exposing (Decoder)
+import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 
 
@@ -72,9 +72,9 @@ searchResultDecoder =
     -- and http://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest
     -- TODO replace these calls to `hardcoded` with calls to `require`
     decode SearchResult
-        |> hardcoded 0
-        |> hardcoded ""
-        |> hardcoded 0
+        |> required "id" int
+        |> required "full_name" string
+        |> required "stargazers_count"
 
 
 type alias Model =
