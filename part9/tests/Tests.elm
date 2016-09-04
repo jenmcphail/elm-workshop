@@ -22,12 +22,16 @@ all =
                         -- and False if it is an Ok of some sort.
                         --
                         -- Result docs: http://package.elm-lang.org/packages/elm-lang/core/4.0.1/Result
-                        False
+                        case result of
+                            Err_ ->
+                                True
+                            Ok_ ->
+                                False
                 in
                     json
                         |> decodeString responseDecoder
                         |> isErrorResult
-                        |> Expect.true "Expected decoding an invalid response to return an Err."
+                        |> Expect.true "Expected decoding an invalid response to return an Err."]
         , test "it successfully decodes a valid response" <|
             \() ->
                 """{ "items": [
@@ -48,8 +52,10 @@ all =
                     --
                     -- fuzz test docs: http://package.elm-lang.org/packages/project-fuzzball/test/2.0.1/Test#fuzz
                     -- Fuzzer docs: http://package.elm-lang.org/packages/project-fuzzball/test/2.0.1/Fuzz
+                    fuzz3 (List Int)  <|
+
                     ids =
-                        [ 12, 5, 76 ]
+                        [ randomInt1 randomInt2 randomInt3 ]
 
                     jsonFromId id =
                         """{"id": """ ++ toString id ++ """, "full_name": "foo", "stargazers_count": 42}"""
