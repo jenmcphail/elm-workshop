@@ -105,6 +105,10 @@ decodeResults json =
     -- * an empty list if decoding failed
     --
     -- see http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Json-Decode#decodeString
+    case Json.Decode.decodeString responseDecoder json of
+        Ok results ->
+            results
+
     []
 
 
