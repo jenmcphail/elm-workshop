@@ -37,32 +37,36 @@ subscriptions model =
     case model of
         Home pageModel ->
             -- TODO use Sub.map to translate from Page.Home.subscriptions
-            Sub.none
+            Sub.map HomeMsg
 
         Repository pageModel ->
             -- Repository has no subscriptions, so there's nothing to translate!
-            Sub.none
+            Sub.map RepositoryMsg
 
         NotFound ->
             -- NotFound has no subscriptions, so there's nothing to translate!
-            Sub.none
+            Sub.map Err
 
 
 init : Result String Page -> ( Model, Cmd Msg )
 init result =
     case result of
         Ok (Page.Home) ->
+            Html.map HomeMsg
             -- TODO use Html.map to translate from Page.Home.view
             ( NotFound, Cmd.none )
 
         Ok (Page.Repository repoOwner repoName) ->
             -- TODO use Html.map to translate from Page.Repository.view
+            Html.map RepositoryMsg
             ( NotFound, Cmd.none )
 
         Ok (Page.NotFound) ->
+            Html. NotFound (or error?)
             ( NotFound, Cmd.none )
 
         Err err ->
+            Html.map Err
             ( NotFound, Cmd.none )
 
 
@@ -71,6 +75,7 @@ view model =
     withHeader <|
         case model of
             Home pageModel ->
+                Page.Home.view pageModel
                 -- TODO use Html.map to translate from Page.Home.view
                 text "Nothing to see here yet. Still need to translate Home!"
 
